@@ -1,15 +1,25 @@
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 
-module.exports = {
+const nextJest = require('next/jest')
+
+const createJestConfig = nextJest({
+  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+  dir: './',
+})
+
+const customJestConfig  = {
   preset: "ts-jest",
   testEnvironment: "node",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
   transform: {
     "^.+\\.(ts|tsx)$": "ts-jest",
   },
+  transformIgnorePatterns: [
+  ],  
   globals: {
     "ts-jest": {
       tsconfig: "tsconfig.json",
+      useBabelrc: true,
     },
   },
   globalSetup: "./__tests__/test_config/setup.ts",
@@ -22,4 +32,8 @@ module.exports = {
     "/__tests__/graphql/*"
   ],
   modulePaths: ["/__tests__/"],
+  testEnvironment: 'jest-environment-jsdom',
+
 };
+
+module.exports = createJestConfig(customJestConfig)
