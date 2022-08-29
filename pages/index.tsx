@@ -1,10 +1,10 @@
-import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { Button } from "@mui/material";
+import Link from "next/link";
 
-const Home: NextPage = () => {
+const Index = () => {
   return (
     <div className={styles.container}>
       <Head>
@@ -26,6 +26,22 @@ const Home: NextPage = () => {
         </p>
 
         <div className={styles.grid}>
+          <Link href="/home">
+            <a>
+              <h2>Home &rarr;</h2>
+            </a>
+          </Link>
+          <Link href="/signin">
+            <a>
+              <h2>Sign In &rarr;</h2>
+            </a>
+          </Link>
+          <Link href="/signup">
+            <a>
+              <h2>Sign Up &rarr;</h2>
+            </a>
+          </Link>
+
           <a href="https://nextjs.org/docs" className={styles.card}>
             <h2>Documentation &rarr;</h2>
             <p>Find in-depth information about Next.js features and API.</p>
@@ -72,4 +88,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Index;
