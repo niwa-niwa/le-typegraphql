@@ -10,7 +10,6 @@ const GuestLayout: NextPage<{
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    console.log("signin useEffect");
     // after render window
     if (typeof window !== "undefined" && isLoading) {
       client_auth.onAuthStateChanged((user) => {
