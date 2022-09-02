@@ -31,8 +31,6 @@ const SignUpBody: NextPage = (): EmotionJSX.Element => {
   } = useForm<SignupValue>();
 
   const onSubmit: SubmitHandler<SignupValue> = async (data: SignupValue) => {
-    console.log(data);
-    // dispatch(!state.isDarkMode);
     try {
       await signupWithEmail(data);
       const result = await restV1Client.get("/health");
@@ -64,8 +62,8 @@ const SignUpBody: NextPage = (): EmotionJSX.Element => {
             {txt.signup_with_google}
           </Google_Button>
 
-          {/* <Border_Or /> */}
-          {/* 
+          <Border_Or />
+
           <form onSubmit={handleSubmit(onSubmit)}>
             <Controller
               name="email"
@@ -121,8 +119,7 @@ const SignUpBody: NextPage = (): EmotionJSX.Element => {
             />
 
             <Sign_Submit type="submit">{txt.signup}</Sign_Submit>
-          </form> 
-*/}
+          </form>
         </main>
       </Container>
 

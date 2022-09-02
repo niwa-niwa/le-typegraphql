@@ -12,7 +12,7 @@ import {
 import { LocaleText, useLocale } from "../../hooks/Local/useLocal";
 import { EmotionJSX } from "@emotion/react/types/jsx-namespace";
 import { SubmitHandler, useForm, Controller } from "react-hook-form";
-import { signupWithGoogle } from "../../lib/firebaseApp";
+import { signinWithEmail, signupWithGoogle } from "../../lib/firebaseApp";
 
 type FormValues = {
   email: string;
@@ -39,8 +39,13 @@ const SignInBody: NextPage = (): EmotionJSX.Element => {
     }
   };
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    try{
+      const me = await signinWithEmail(data)
+    }catch(e){
+      // TODO handling error
+      console.error(e)
+    }
   };
 
   return (
@@ -54,7 +59,6 @@ const SignInBody: NextPage = (): EmotionJSX.Element => {
           <Google_Button onClick={onGoogle}>
             {txt.signin_with_google}
           </Google_Button>
-          {/* 
 
           <Border_Or />
 
@@ -114,7 +118,7 @@ const SignInBody: NextPage = (): EmotionJSX.Element => {
 
             <Sign_Submit type="submit">{txt.signin}</Sign_Submit>
           </form> 
-*/}
+
         </main>
       </Container>
 

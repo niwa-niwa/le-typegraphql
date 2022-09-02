@@ -6,6 +6,7 @@ import {
   signInWithPopup,
   createUserWithEmailAndPassword,
   UserCredential,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import { restV1Client } from "./axios";
 
@@ -21,7 +22,7 @@ const firebaseConfig: object = {
 
 const firebaseApp: FirebaseApp = initializeApp(firebaseConfig);
 
-export const client_auth: Auth = getAuth();
+export const client_auth: Auth = getAuth(firebaseApp);
 
 export async function signupWithGoogle() {
   const result: UserCredential = await signInWithPopup(
@@ -45,6 +46,22 @@ export type SignupValue = {
 
 export async function signupWithEmail({ email, password }: SignupValue) {
   const result: UserCredential = await createUserWithEmailAndPassword(
+    client_auth,
+    email,
+    password
+  );
+
+  const token: string = await result.user.getIdToken();
+
+  const me = await restV1Client.get("/me", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  return me;
+}
+
+export async function signinWithEmail({ email, password }: SignupValue) {
+  const result: UserCredential = await signInWithEmailAndPassword(
     client_auth,
     email,
     password
