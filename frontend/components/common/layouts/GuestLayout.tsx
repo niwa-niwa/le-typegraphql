@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Router from "next/router";
 import { ReactNode, useEffect, useState } from "react";
-import { client_auth } from "../../../lib/firebaseApp";
+import { authState } from "../../../lib/firebaseApp";
 import { ModalCircular } from "../loadings/ModalCircular";
 
 const GuestLayout: NextPage<{
@@ -12,7 +12,7 @@ const GuestLayout: NextPage<{
   useEffect(() => {
     // after render window
     if (typeof window !== "undefined" && isLoading) {
-      client_auth.onAuthStateChanged((user) => {
+      authState((user) => {
         if (!user) return setIsLoading(false);
 
         //  auth user it should redirect /home

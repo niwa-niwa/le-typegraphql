@@ -6,9 +6,6 @@ import Button from "@mui/material/Button";
 import { css } from "@emotion/react";
 import { useLocale, LocaleText } from "../../../hooks/Local/useLocal";
 import { EmotionJSX } from "@emotion/react/types/jsx-namespace";
-import { client_auth } from "../../../lib/firebaseApp";
-import { useContext } from "react";
-import { ThemeModeContext } from "../../../hooks/ThemeMode/ThemeModeContext";
 
 export default function GuestHeader(): EmotionJSX.Element {
   const { txt }: { txt: LocaleText } = useLocale();
@@ -16,8 +13,6 @@ export default function GuestHeader(): EmotionJSX.Element {
     { text: "Sign In", link: "signin" },
     { text: "Sign Up", link: "signup" },
   ];
-
-  const themeMode = useContext(ThemeModeContext);
 
   return (
     <AppBar position="static">

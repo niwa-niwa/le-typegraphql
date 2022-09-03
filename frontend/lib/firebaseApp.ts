@@ -7,7 +7,9 @@ import {
   createUserWithEmailAndPassword,
   UserCredential,
   signInWithEmailAndPassword,
+  User,
 } from "firebase/auth";
+import { VARS } from "../../consts/vars";
 import { restV1Client } from "./axios";
 
 const firebaseConfig: object = {
@@ -22,7 +24,7 @@ const firebaseConfig: object = {
 
 const firebaseApp: FirebaseApp = initializeApp(firebaseConfig);
 
-export const client_auth: Auth = getAuth(firebaseApp);
+const client_auth: Auth = getAuth(firebaseApp);
 
 export async function signupWithGoogle() {
   const result: UserCredential = await signInWithPopup(
@@ -32,11 +34,13 @@ export async function signupWithGoogle() {
 
   const token: string = await result.user.getIdToken();
 
-  const me = await restV1Client.get("/me", {
+  const {
+    data: { user },
+  } = await restV1Client.get("/me", {
     headers: { Authorization: `Bearer ${token}` },
   });
 
-  return me;
+  return user;
 }
 
 export type SignupValue = {
@@ -53,11 +57,13 @@ export async function signupWithEmail({ email, password }: SignupValue) {
 
   const token: string = await result.user.getIdToken();
 
-  const me = await restV1Client.get("/me", {
+  const {
+    data: { user },
+  } = await restV1Client.get("/me", {
     headers: { Authorization: `Bearer ${token}` },
   });
 
-  return me;
+  return user;
 }
 
 export async function signinWithEmail({ email, password }: SignupValue) {
@@ -69,9 +75,34 @@ export async function signinWithEmail({ email, password }: SignupValue) {
 
   const token: string = await result.user.getIdToken();
 
-  const me = await restV1Client.get("/me", {
+  const {
+    data: { user },
+  } = await restV1Client.get("/me", {
     headers: { Authorization: `Bearer ${token}` },
   });
 
-  return me;
+  return user;
+}
+
+export function authState(func: (user: any) => void) {
+  client_auth.onAuthStateChanged(async (firebase_user: User | null) => {
+    if (!firebase_user) return func(null);
+
+    const token: string = await firebase_user.getIdToken();
+
+    const {
+      data: { user },
+    } = await restV1Client.get("/me", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    localStorage.setItem(VARS.ACCESS_TOKEN, token);
+
+    func(user);
+  });
+}
+
+export function signOut() {
+  localStorage.removeItem(VARS.ACCESS_TOKEN);
+  client_auth.signOut();
 }

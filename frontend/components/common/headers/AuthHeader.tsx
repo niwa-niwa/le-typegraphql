@@ -17,7 +17,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useLocale, LocaleText } from "../../../hooks/Local/useLocal";
 import { ThemeModeContext } from "../../../hooks/ThemeMode/ThemeModeContext";
-import { client_auth } from "../../../lib/firebaseApp";
+import { signOut } from "../../../lib/firebaseApp";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -95,7 +95,7 @@ export default function AuthHeader() {
   };
 
   const onSignOut = () => {
-    client_auth.signOut();
+    signOut();
     handleMenuClose();
   };
 
