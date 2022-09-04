@@ -26,12 +26,13 @@ const customJestConfig  = {
   setupFilesAfterEnv: ["./__tests__/test_config/afterEnv.ts"],
   globalTeardown: "./__tests__/test_config/teardown.ts",
   testPathIgnorePatterns: [
-    "/node_modules/",
+    // "/node_modules/",
     "/__tests__/test_config/",
     "/__tests__/sockets/io.test.ts",
     "/__tests__/graphql/*"
   ],
-  modulePaths: ["/__tests__/"],
+  // modulePaths: ["/__tests__/"],
+  moduleDirectories: ['node_modules', '<rootDir>/'],
   testEnvironment: 'jest-environment-jsdom',
 
 };
